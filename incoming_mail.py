@@ -56,7 +56,7 @@ class MailHander(InboundMailHandler):
             plaintext_body = list(plaintext_bodies)[0][1].decode()
             
             m = hashlib.md5()
-            m.update(plaintext_body)
+            m.update(plaintext_body.encode('utf-8'))
             hex_digest = m.hexdigest()
             
             if r.last_message <> hex_digest:
