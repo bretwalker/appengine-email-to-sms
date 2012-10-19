@@ -124,13 +124,14 @@ class MailHander(InboundMailHandler):
                 client.sms.messages.create(to=to,
                                            from_=TWILIO_NUMBER,
                                            body=t + ' (' + str(i) + '/' + str(total_messages if total_messages <= 5 else 5) + ')')
-                                           
+
+                sleep(0.2) # give earlier messages a little head start                           
+
                 if i == 5:
                     client.sms.messages.create(to=to,
                                                from_=TWILIO_NUMBER,
                                                body='The rest of the message was too long for me to send!')
                     return
-                sleep(0.1) # give earlier messages a little head start
                 i += 1
                                            
 app = webapp2.WSGIApplication([MailHander.mapping()], debug=True)
