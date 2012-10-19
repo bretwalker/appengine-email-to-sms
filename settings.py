@@ -8,3 +8,5 @@ FOOTER_STUFF3 = 'please contact the sender and delete or destroy the material/in
 
 ADMIN_EMAIL = ''
 AUTHORIZED_DOMAIN = ''
+
+APP_EMAIL = ''

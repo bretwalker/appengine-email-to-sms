@@ -2,6 +2,8 @@ import webapp2
 
 from google.appengine.ext import db
 
+from settings import APP_EMAIL
+
 class Recipient(db.Expando):
     email = db.StringProperty()
     phone_number = db.StringProperty()
@@ -43,7 +45,7 @@ class OutlookInstructions(webapp2.RequestHandler):
               Dim objMsg As MailItem
               Set objMsg = Application.CreateItem(olMailItem)
 
-              objMsg.To = "hi@txt-meeting.appspotmail.com"
+              objMsg.To = "%s"
               objMsg.Subject = "Reminder: " & Item.Subject
               objMsg.BodyFormat = olFormatPlain
 
@@ -86,7 +88,7 @@ class OutlookInstructions(webapp2.RequestHandler):
           End If
         End Sub
 </pre>
-        """)
+        """ % APP_EMAIL)
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
