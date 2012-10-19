@@ -125,7 +125,7 @@ class MailHander(InboundMailHandler):
                                            from_=TWILIO_NUMBER,
                                            body=t + ' (' + str(i) + '/' + str(total_messages if total_messages <= 5 else 5) + ')')
 
-                sleep(0.2) # give earlier messages a little head start                           
+                sleep(0.3) # give earlier messages a little head start                           
 
                 if i == 5:
                     client.sms.messages.create(to=to,
