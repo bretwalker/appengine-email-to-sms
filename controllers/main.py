@@ -52,17 +52,15 @@ class OutlookInstructions(webapp2.RequestHandler):
               ' Code to handle the 4 types of items that can generate reminders
               Select Case Item.Class
                  Case olAppointment '26
-                    If DateDiff("d", Item.Start, Item.End) = 0 Then
+                    If DateDiff("d", Item.Start, Item.End) = 0 And DateValue(Item.Start) = Date Then
                         objMsg.Body = _
                           "Reminder: " & Item.Subject & vbCrLf & _
-                          DatePart("m", Item.Start) & "/" & DatePart("d", Item.Start) & " -- " & _
                           Format(Item.Start, "h:mm ampm") & " - " & Format(Item.End, "h:mm ampm") & vbCrLf & _
                           "Location: " & Item.Location & vbCrLf
                     Else
                         objMsg.Body = _
                           "Reminder: " & Item.Subject & vbCrLf & _
-                          "Start: " & Format(Item.Start, "h:mm ampm mm/dd/yyyy") & vbCrLf & _
-                          "End: " & Format(Item.End, "h:mm ampm mm/dd/yyyy") & vbCrLf & _
+                          Format(Item.Start, "h:mm ampm mm/dd/yyyy") & " - " & Format(Item.End, "h:mm ampm mm/dd/yyyy") & vbCrLf & _
                           "Location: " & Item.Location & vbCrLf
                     End If
                  Case olContact '40

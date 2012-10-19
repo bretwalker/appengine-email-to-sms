@@ -10,10 +10,10 @@ handlers:
   upload: favicon\.ico
 
 - url: /_ah/mail/.+
-  script: incoming_mail.app
+  script: controllers.incoming_mail.app
     
 - url: .*
-  script: main.app
+  script: controllers.main.app
 
 libraries:
 - name: webapp2

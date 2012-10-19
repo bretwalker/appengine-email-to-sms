@@ -3,6 +3,8 @@ import logging
 import re
 import webapp2
 
+from time import sleep
+
 from main import Recipient
 
 from google.appengine.api import mail
@@ -85,7 +87,7 @@ class MailHander(InboundMailHandler):
         strings = []
         current_string_length = 0
         current_string = []
-        for word in s.split():
+        for word in s.split(' '):
             current_string_length += len(word) + 1
             
             if current_string_length <= count:
@@ -114,6 +116,7 @@ class MailHander(InboundMailHandler):
             client.sms.messages.create(to=to,
                                        from_=TWILIO_NUMBER,
                                        body=split_body[0])
+            logging.info(split_body[0])
         else:
             i = 1
             
@@ -127,6 +130,7 @@ class MailHander(InboundMailHandler):
                                                from_=TWILIO_NUMBER,
                                                body='The rest of the message was too long for me to send!')
                     return
+                sleep(0.1) # give earlier messages a little head start
                 i += 1
                                            
 app = webapp2.WSGIApplication([MailHander.mapping()], debug=True)
