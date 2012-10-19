@@ -1,0 +1,25 @@
+Hey, thanks for sending me an email, I'd love to help you remind you about your meetings!
+
+In order to help you, I need you to do a couple of things.
+
+First, please reply to this message with your phone number (10 digits, please) in the subject line so that I know where to send the alerts.
+
+Second, I need you to copy and paste some code into Outlook.
+(This is the code that sends me what I send to you!)
+
+To start, open Outlook and press Alt+F11.
+You should see a new window.
+Now click on ThisOutlookSession and paste the code from http://txt-meeting.appspot.com/outlook-code into the white area on the right and then close the window.
+
+In order for this code to work every time you run Outlook, you'll need to tell Outlook to let the code (or "macro") run.
+In Outlook, go to File -> Options -> Trust Center -> Trust Center Settings -> Macro Settings and choose “Notifications for all macros.”
+This will notify you that you’re allowing the script to run every time you start up Outlook.
+When you open Outlook, just click “Enable Macros” on the window that pops up. Easy!
+
+Ok, that's it!
+
+Once you respond with your phone number, I'll send you a confirmation letting you know that you should start receiving text messages about your meetings and reminders.
+
+As long as Outlook is running, the messages should keep coming!
+
+PS. To stop receiving alerts, just send me a message with STOP in the subject line or delete the code you added to ThisOutlookSession.
