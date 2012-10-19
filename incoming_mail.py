@@ -9,7 +9,7 @@ from google.appengine.api import mail
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 from twilio.rest import TwilioRestClient
 
-from settings import TWILIO_ACCOUT, TWILIO_TOKEN, TWILIO_NUMBER, FOOTER_STUFF1, FOOTER_STUFF2, FOOTER_STUFF3, AUTHORIZED_DOMAIN, ADMIN_EMAIL
+from settings import TWILIO_ACCOUT, TWILIO_TOKEN, TWILIO_NUMBER, FOOTER_STUFF1, FOOTER_STUFF2, FOOTER_STUFF3, AUTHORIZED_DOMAIN, ADMIN_EMAIL, APP_BASE_URL
 
 class MailHander(InboundMailHandler):
     def receive(self, mail_message):
@@ -33,7 +33,7 @@ class MailHander(InboundMailHandler):
             mail.send_mail(sender="TXT Meeting Reminders<hi@txt-meeting.appspotmail.com>",
                           to=sender,
                           subject="Meeting reminders via text message",
-                          body=response)
+                          body=response % APP_BASE_URL)
                           
             logging.info('Created user and sent instructions')
         elif hasattr(mail_message, 'subject') and re.match('\d{10}', re.sub("\D", "", mail_message.subject)):

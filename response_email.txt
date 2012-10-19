@@ -9,7 +9,7 @@ Second, I need you to copy and paste some code into Outlook.
 
 To start, open Outlook and press Alt+F11.
 You should see a new window.
-Now click on ThisOutlookSession and paste the code from http://txt-meeting.appspot.com/outlook-code into the white area on the right and then close the window.
+Now click on ThisOutlookSession and paste the code from %s/outlook-code into the white area on the right and then close the window.
 
 In order for this code to work every time you run Outlook, you'll need to tell Outlook to let the code (or "macro") run.
 In Outlook, go to File -> Options -> Trust Center -> Trust Center Settings -> Macro Settings and choose “Notifications for all macros.”
