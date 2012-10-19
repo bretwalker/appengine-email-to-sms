@@ -104,20 +104,29 @@ class MailHander(InboundMailHandler):
                 
     def send_sms(self, to, body):
         """Sends an SMS, spliting it into 160-character messages."""
-        split_body = self.split_count(body, 155)
+        split_body = self.split_count(body, 153)
         client = TwilioRestClient(TWILIO_ACCOUT, 
                                   TWILIO_TOKEN)
+        
+        total_messages = len(split_body)
                         
-        if len(split_body) == 1:
+        if total_messages == 1:
             client.sms.messages.create(to=to,
                                        from_=TWILIO_NUMBER,
                                        body=split_body[0])
         else:
             i = 1
+            
             for t in split_body:
                 client.sms.messages.create(to=to,
                                            from_=TWILIO_NUMBER,
-                                           body=t + ' (' + str(i) + '/' + str(len(split_body)) + ')')
+                                           body=t + ' (' + str(i) + '/' + str(total_messages if total_messages <= 5 else 5) + ')')
+                                           
+                if i == 5:
+                    client.sms.messages.create(to=to,
+                                               from_=TWILIO_NUMBER,
+                                               body='The rest of the message was too long for me to send!')
+                    return
                 i += 1
                                            
 app = webapp2.WSGIApplication([MailHander.mapping()], debug=True)
