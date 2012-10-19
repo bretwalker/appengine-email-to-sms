@@ -36,7 +36,7 @@ class MailHander(InboundMailHandler):
                           body=response % APP_BASE_URL)
                           
             logging.info('Created user and sent instructions')
-        elif hasattr(mail_message, 'subject') and re.match('\d{10}', re.sub("\D", "", mail_message.subject)):
+        elif hasattr(mail_message, 'subject') and re.match('^\d{10}$', re.sub("\D", "", mail_message.subject)):
             r.phone_number = re.sub("\D", "", mail_message.subject)
             r.put()
             
