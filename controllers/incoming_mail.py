@@ -15,7 +15,7 @@ from settings import TWILIO_ACCOUT, TWILIO_TOKEN, TWILIO_NUMBER, FOOTER_STUFF1, 
 
 class MailHander(InboundMailHandler):
     def receive(self, mail_message):
-        sender = mail_message.sender
+        sender = mail_message.sender.lower()
         
         logging.info("Received a message from: " + sender)
         
