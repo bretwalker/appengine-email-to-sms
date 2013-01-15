@@ -1,0 +1,11 @@
+cron:
+- description: delete history
+  url: /history-cleanup
+  schedule: every day 00:00
+  timezone: America/Kentucky/Louisville
+  
+# just in case...
+- description: delete history
+  url: /history-cleanup
+  schedule: every day 00:15
+  timezone: America/Kentucky/Louisville

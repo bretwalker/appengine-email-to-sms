@@ -5,7 +5,7 @@ import webapp2
 
 from time import sleep
 
-from main import Recipient
+from main import Recipient, PreviousMessage
 
 from google.appengine.api import mail
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
@@ -61,9 +61,11 @@ class MailHander(InboundMailHandler):
             m.update(plaintext_body.encode('utf-8'))
             hex_digest = m.hexdigest()
             
-            if r.last_message <> hex_digest:
-                r.last_message = hex_digest
-                r.put()
+            previous_message = PreviousMessage.all().filter('email =', sender).filter('hash =', hex_digest).get()
+            
+            if previous_message is None:
+                message_log = PreviousMessage(email=sender, hash=hex_digest)
+                message_log.put()
                 
                 self.send_sms('+1' + r.phone_number, plaintext_body.replace(FOOTER_STUFF1, '').replace(FOOTER_STUFF2, '').replace(FOOTER_STUFF3, '').strip())
 
@@ -116,7 +118,7 @@ class MailHander(InboundMailHandler):
             client.sms.messages.create(to=to,
                                        from_=TWILIO_NUMBER,
                                        body=split_body[0])
-            logging.info(split_body[0])
+            #logging.info(split_body[0])
         else:
             i = 1
             

@@ -7,7 +7,11 @@ from settings import APP_EMAIL
 class Recipient(db.Expando):
     email = db.StringProperty()
     phone_number = db.StringProperty()
-    last_message = db.StringProperty()
+
+class PreviousMessage(db.Expando):
+    email = db.StringProperty()
+    date = db.DateTimeProperty(auto_now=True, auto_now_add=True)
+    hash = db.StringProperty()
     
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -87,8 +91,14 @@ class OutlookInstructions(webapp2.RequestHandler):
         End Sub
 </pre>
         """ % APP_EMAIL)
-        
+
+class HistoryCleanup(webapp2.RequestHandler):
+    def get(self):
+        message_history_to_delete = PreviousMessage.all()
+        db.delete(message_history_to_delete)
+     
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/outlook-code', OutlookInstructions)
+    ('/outlook-code', OutlookInstructions),
+    ('/history-cleanup', HistoryCleanup)
 ], debug=False)

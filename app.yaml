@@ -11,7 +11,11 @@ handlers:
 
 - url: /_ah/mail/.+
   script: controllers.incoming_mail.app
-    
+
+- url: /history-cleanup
+  script: controllers.main.app
+  login: admin    
+
 - url: .*
   script: controllers.main.app
 
