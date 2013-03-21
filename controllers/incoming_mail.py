@@ -11,7 +11,7 @@ from google.appengine.api import mail
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
 from twilio.rest import TwilioRestClient
 
-from settings import TWILIO_ACCOUT, TWILIO_TOKEN, TWILIO_NUMBER, FOOTER_STUFF1, FOOTER_STUFF2, FOOTER_STUFF3, AUTHORIZED_DOMAIN, ADMIN_EMAIL, APP_BASE_URL
+from settings import TWILIO_ACCOUT, TWILIO_TOKEN, TWILIO_NUMBER, FOOTER_STUFF_RE, AUTHORIZED_DOMAIN, ADMIN_EMAIL, APP_BASE_URL
 
 class MailHander(InboundMailHandler):
     def receive(self, mail_message):
@@ -66,8 +66,9 @@ class MailHander(InboundMailHandler):
             if previous_message is None:
                 message_log = PreviousMessage(email=sender, hash=hex_digest)
                 message_log.put()
-                
-                self.send_sms('+1' + r.phone_number, plaintext_body.replace(FOOTER_STUFF1, '').replace(FOOTER_STUFF2, '').replace(FOOTER_STUFF3, '').strip())
+
+                rx = re.compile(FOOTER_STUFF_RE, re.DOTALL)
+                self.send_sms('+1' + r.phone_number, rx.sub('', plaintext_body).replace('\n', '').strip())
 
                 logging.info('Sent SMS reminder')
             else:
