@@ -38,7 +38,7 @@ class MailHander(InboundMailHandler):
                           body=response % APP_BASE_URL)
                           
             logging.info('Created user and sent instructions')
-        elif hasattr(mail_message, 'subject') and re.match('^\d{10}$', re.sub("\D", "", mail_message.subject)):
+        elif hasattr(mail_message, 'subject') and re.match('^phone:([0-9]( |-)?)?(\(?[0-9]{3}\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[0-9]{7})$', mail_message.subject, re.IGNORECASE):
             r.phone_number = re.sub("\D", "", mail_message.subject)
             r.put()
             
@@ -77,7 +77,7 @@ class MailHander(InboundMailHandler):
             mail.send_mail(sender="TXT Meeting Reminders<hi@txt-meeting.appspotmail.com>",
                           to=sender,
                           subject="Meeting reminders via text message",
-                          body="I don't know where to send your reminders. Could you reply to this message with your phone number in the subject line?")
+                          body="I don't know where to send your reminders. Please reply to this message with your phone number in the subject line in this format:\nPhone:(502) 555-1212")
             logging.info('Sent email asking for phone number')
                 
     def split_count(self, s, count):
