@@ -38,11 +38,11 @@ class MailHander(InboundMailHandler):
                           body=response % APP_BASE_URL)
                           
             logging.info('Created user and sent instructions')
-        elif hasattr(mail_message, 'subject') and re.match('^phone:([0-9]( |-)?)?(\(?[0-9]{3}\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[0-9]{7})$', mail_message.subject, re.IGNORECASE):
+        elif hasattr(mail_message, 'subject') and re.match('^phone:[ ]?([0-9]( |-)?)?(\(?[0-9]{3}\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[0-9]{7})$', mail_message.subject, re.IGNORECASE):
             r.phone_number = re.sub("\D", "", mail_message.subject)
             r.put()
             
-            self.send_sms('+1' + re.sub("\D", "", mail_message.subject), "I'll send you messages for " + r.email + '.  Send me an email with a phone number in the subject to change your number.') 
+            self.send_sms('+1' + re.sub("\D", "", mail_message.subject), "I'll send you messages for " + r.email + '.  Send me an email with a phone number in the subject to change your number. Please use this format in the subject:\nPhone:(502) 555-1212') 
             logging.info('Added/updated phone number')
             
         elif hasattr(mail_message, 'subject') and re.sub("\W", "", mail_message.subject.lower()) == 'stop':
